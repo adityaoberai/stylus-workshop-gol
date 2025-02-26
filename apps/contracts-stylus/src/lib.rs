@@ -98,8 +98,16 @@ impl GameOfLifeNFT {
                             }
                         }
                     }
+                    // Apply Game of Life rules
+                    // rule1 : Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+                    // rule2 : Any live cell with two or three live neighbours lives on to the next generation.
+                    // rule3 : Any live cell with more than three live neighbours dies, as if by overpopulation.
+                    // rule4 : Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+                    // https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
                     next[y][x] = matches!((grid[y][x], neighbors),
                         (true, 2) | (true, 3) | (false, 3));
+
+                    
                     if next[y][x] {
                         next_has_cells = true;
                         let is_last = has_cells && gen == generations - 1;
