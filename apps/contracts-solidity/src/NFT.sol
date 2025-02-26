@@ -14,9 +14,6 @@ contract NFT is ERC721, Ownable {
     // Keep track of all tokens
     uint256[] private _allTokens;
     
-    // Rust contract address
-    address private constant GAME_OF_LIFE_CONTRACT = 0x1B9CbDC65a7BebB0bE7F18d93A1896ea1FD46d7A;
-
     constructor(address initialOwner) ERC721("MyNFT", "MNFT") Ownable(initialOwner) {}
 
     function mint() public returns (uint256) {
@@ -27,8 +24,7 @@ contract NFT is ERC721, Ownable {
     }
 
     function totalSupply() public view returns (uint256) {
-        // TODO: Implement this method
-        return 0;
+        return _allTokens.length;
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {

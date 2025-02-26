@@ -11,10 +11,9 @@ import { localhost } from './constants'
 import ETHBalance from './components/ETHBalance'
 import Minter from './components/Minter'
 import Footer from './components/Footer'
-// Replace with your deployed contract address
+// TODO Replace with your deployed contract address
 const RUST_NFT_CONTRACT_ADDRESS = '0xa6e41ffd769491a42a6e5ce453259b93983a22ef'
-const SOLIDITY_NFT_CONTRACT_ADDRESS = '0xA39FFA43ebA037D67a0f4fe91956038ABA0CA386'
-const SOLIDITY_AND_STYLUS_NFT_CONTRACT_ADDRESS = '0xdB3F4Ecb0298238a19eC5AFD087C6d9dF8041919'
+const SOLIDITY_NFT_CONTRACT_ADDRESS = '0x408Da76E87511429485C32E4Ad647DD14823Fdc4'
 
 function App() {
   const [account, setAccount] = useState<string>('')
@@ -69,13 +68,6 @@ function App() {
           contractAddress={SOLIDITY_NFT_CONTRACT_ADDRESS}
         />
         </div>
-        <Minter 
-          name="Solidity + Stylus"
-          walletClient={walletClient}
-          publicClient={publicClient}
-          account={account}
-          contractAddress={SOLIDITY_AND_STYLUS_NFT_CONTRACT_ADDRESS}
-        />
       </div>
       <Footer />
     </div>

@@ -34,8 +34,9 @@
 - `pnpm install -r` install all the dependencies in all the `apps`
 - `cargo stylus check`
 
+
 ### Step 5: Solidity + Stylus Contract
-- `git checkout step-5-solidity-and-stylus` checkout the second step of the workshop
+- `git checkout master` move back to the full repo
 - `pnpm install -r` install all the dependencies in all the `apps`
 - `cargo stylus check`
 
