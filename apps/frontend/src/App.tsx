@@ -53,20 +53,7 @@ function App() {
       <div className="card">
         <ETHBalance publicClient={publicClient} account={account} />
         <div className='flex flex-col md:flex-row justify-between w-full gap-4'>
-        <Minter
-          name="Rust"
-          walletClient={walletClient}
-          publicClient={publicClient}
-          account={account}
-          contractAddress={RUST_NFT_CONTRACT_ADDRESS}
-        />
-        <Minter 
-          name="Solidity"
-          walletClient={walletClient}
-          publicClient={publicClient}
-          account={account}
-          contractAddress={SOLIDITY_NFT_CONTRACT_ADDRESS}
-        />
+        
         </div>
       </div>
       <Footer />
