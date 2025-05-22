@@ -11,19 +11,26 @@ use openzeppelin_stylus::token::erc721::Erc721;
 #[entrypoint]
 #[storage]
 pub struct GameOfLifeNFT {
+    /// The #[borrow] macro allows you to use another contract's storage (here, OpenZeppelin's ERC721) inside your own contract.
     #[borrow]
-    pub erc721: Erc721,
-    pub token_supply: StorageU256,
+    // TODO: Add the ERC721 storage field. This enables NFT functionality using OpenZeppelin's implementation.
+    // Example: pub erc721: Erc721,
+
+    // TODO: Add a field to track the total token supply. Use StorageU256 for persistent storage.
+    // Example: pub token_supply: StorageU256,
 }
 
 #[public]
 #[inherit(Erc721)]
 impl GameOfLifeNFT {
     pub fn mint(&mut self) -> Result<(), Vec<u8>> {
-        let to = msg::sender();
-        let token_id = self.token_supply.get() + U256::from(1);
-        self.token_supply.set(token_id);
-        Ok(self.erc721._mint(to, token_id)?)
+        // TODO: Implement the mint function.
+        // 1. Get the address of the sender using `msg::sender()`.
+        // 2. Increment the token supply and use it as the new token ID.
+        // 3. Store the updated token supply.
+        // 4. Use the ERC721 helper to mint the NFT to the sender.
+        // 5. Return Ok(()) if successful, or an error if minting fails.
+        unimplemented!("Workshop: implement mint logic");
     }
 
     pub fn name(&self) -> Result<String, Vec<u8>> {

@@ -1,4 +1,4 @@
-# The Power of Stylus: A Rust and Solidity Smart Contract Hands-On Workshop
+# The Power of Stylus: A Rust Smart Contract Hands-On Workshop
 
 ![cover](./workshop-cover.png)
 
@@ -6,7 +6,7 @@
 
 > **Run this workshop in GitHub Codespaces.** The Codespace devcontainer includes all dependencies and configurations. Click the button below to launch your Codespace and start building!
 
-[![Open in Codespaces](https://img.shields.io/badge/Open%20in-GitHub%20Codespaces-blue?logo=github&logoColor=white&style=for-the-badge)](https://codespaces.new/ArbitrumFoundation/stylus-workshop-gol/tree/master)
+[![Open in Codespaces](https://img.shields.io/badge/Open%20in-GitHub%20Codespaces-blue?logo=github&logoColor=white&style=for-the-badge)](https://codespaces.new/ArbitrumFoundation/stylus-workshop-gol/tree/rust-workshop)
 
 **Quick Start:**
 1. Click the "Open in Codespaces" button above.
@@ -19,10 +19,9 @@
 ## What You'll Build
 
 In this hands-on workshop, you will:
-- Implement and compare smart contracts in both Rust (Stylus) and Solidity.
-- Deploy them on a local Arbitrum Nitro devnode.
-- Connect your contracts to a modern React frontend.
-- Build a full dApp using the latest tools and best practices.
+- Learn the basics of writing a Rust Stylus smart contract by implementing core logic yourself.
+- Deploy your Rust Stylus contract on a local Arbitrum Nitro devnode.
+- Connect your contract to the pre-built frontend to interact with it.
 
 ---
 
@@ -48,34 +47,32 @@ For advanced/local setup:
 
 ## Getting Started (in Codespaces)
 
-Your Codespace comes pre-configured. Open a terminal and follow the steps in each section below. If you want to run locally, review the "Requirements" section above and follow these same steps in your own environment.
+Your Codespace comes pre-configured for this workshop. You do NOT need to check out any other branch or install dependencies—just start building your Stylus contract!
 
-### Step 1: Setup
-- `git checkout step-1-setup` — Check out the initial setup branch.
-- `pnpm install -r` — Install dependencies in all `apps`.
-- `cd apps/contracts-stylus && cargo stylus check` — Verify the Rust contract setup.
+### Step 1: Start the Arbitrum Nitro Devnode
+1. Open a new terminal window in Codespaces.
+2. Navigate to the devnode directory:
+   ```sh
+   cd apps/nitro-devnode
+   ```
+3. Start the devnode:
+   ```sh
+   ./run-dev-node.sh
+   ```
+   This will launch a local Arbitrum chain for deploying and testing your contracts.
 
-### Step 2: Game of Life Stylus Contract
-- `git checkout step-2-stylus-contract` — Switch to the Stylus contract step.
-- `pnpm install -r` — Update dependencies.
-- `cd apps/contracts-stylus && cargo stylus check` — Verify the Stylus contract.
-- Edit `src/lib.rs` as instructed.
+### Step 2: Build Your Stylus Contract
+1. Open the Rust contract in `apps/contracts-stylus/src/lib.rs`.
+2. Follow the instructions in the code comments to implement the required functions.
+3. To check your progress, run:
+   ```sh
+   cd apps/contracts-stylus
+   cargo stylus check
+   ```
+   This will compile your contract and show any errors or missing implementations.
 
-### Step 3: Frontend
-- `git checkout step-3-frontend` — Switch to the frontend step.
-- `pnpm install -r` — Update dependencies.
-- `cd apps/contracts-stylus && cargo stylus check` — Verify contracts if needed.
-
-### Step 4: Solidity Contract
-- `git checkout step-4-solidity-contract` — Switch to the Solidity contract step.
-- Review `src/NFT.sol`.
-- `cd apps/contracts-stylus && cargo stylus check` — Verify contracts if needed.
-
-### Step 5: Solidity + Stylus Contract
-- `git checkout master` — Switch to the final result.
-- `pnpm install -r` — Install all dependencies.
-- Review `src/StylusNFT.sol`.
-- `cd apps/contracts-stylus && cargo stylus check` — Verify contracts if needed.
+### Step 3: Deploy & Test
+Once your contract compiles, you can deploy and interact with it using the provided scripts or frontend (see later sections for details).
 
 ## Workspace Shortcuts
 
@@ -177,8 +174,3 @@ After starting the node, run these commands:
 - `pnpm --filter contracts-stylus test` — Run the contract tests.
 - `pnpm --filter contracts-stylus test:integration` — Run contract integration tests.
 - `pnpm --filter contracts-stylus deploy:local` — Deploy the contract to the local network.
-
-### Contracts-solidity
-- `pnpm --filter contracts-solidity build` — Build the contracts.
-- `pnpm --filter contracts-solidity test` — Run the tests.
-- `pnpm --filter contracts-solidity deploy:local` — Deploy the contract to the local network.
