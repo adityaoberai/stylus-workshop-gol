@@ -51,13 +51,9 @@ Your Codespace comes pre-configured for this workshop. You do NOT need to check 
 
 ### Step 1: Start the Arbitrum Nitro Devnode
 1. Open a new terminal window in Codespaces.
-2. Navigate to the devnode directory:
+2. Start the Nitro devnode:
    ```sh
-   cd apps/nitro-devnode
-   ```
-3. Start the devnode:
-   ```sh
-   ./run-dev-node.sh
+   pnpm --filter contracts-stylus nitro-node
    ```
    This will launch a local Arbitrum chain for deploying and testing your contracts.
 
@@ -118,10 +114,10 @@ Nitro comes with the following preloaded account:
 
 Interact with the contracts as a user by choosing a different wallet address from the deployer. Use one of the test accounts below, each with a unique address and private key.
 
-Fund these accounts with ETH from the deployer (master) account. Run this script in your Codespace terminal:
+Fund these accounts with ETH from the deployer (master) account using the following pnpm script:
 
-```bash
-./scripts/funds.sh
+```sh
+pnpm --filter contracts-stylus fund-accounts
 ```
 
 This script sends ETH from the master account to each test account so you can complete transactions during the workshop.
