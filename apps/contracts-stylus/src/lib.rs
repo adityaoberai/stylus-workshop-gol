@@ -25,7 +25,7 @@ pub struct GameOfLifeNFT {
 impl GameOfLifeNFT {
     pub fn mint(&mut self) -> Result<(), Vec<u8>> {
         // TODO: Implement the mint function.
-        // 1. Get the address of the sender using `msg::sender()`.
+        // 1. Get the address of the sender using `self.vm().msg_sender()`.
         // 2. Increment the token supply and use it as the new token ID.
         // 3. Store the updated token supply.
         // 4. Use the ERC721 helper to mint the NFT to the sender.
