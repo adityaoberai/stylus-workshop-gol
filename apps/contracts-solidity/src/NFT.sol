@@ -20,15 +20,22 @@ contract NFT is ERC721, Ownable {
     constructor(address initialOwner) ERC721("MyNFT", "MNFT") Ownable(initialOwner) {}
 
     function mint() public returns (uint256) {
-        uint256 tokenId = _allTokens.length + 1;
-        _allTokens.push(tokenId);
-        _safeMint(msg.sender, tokenId);
-        return tokenId;
+        // TODO: Implement the minting logic for your NFT contract.
+        // 1. Calculate the next tokenId (hint: use the length of the _allTokens array).
+        // 2. Add the new tokenId to the _allTokens array.
+        // 3. Mint the NFT to the sender using _safeMint.
+        // 4. Return the new tokenId.
+        //
+        // Write your code below:
+        
     }
 
     function totalSupply() public view returns (uint256) {
-        // TODO: Implement this method
-        return 0;
+        // TODO: Return the total number of NFTs that have been minted.
+        // Hint: Use the length of the _allTokens array.
+        //
+        // Write your code below:
+        
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {

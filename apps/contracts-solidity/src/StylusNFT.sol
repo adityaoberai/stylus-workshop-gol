@@ -31,7 +31,11 @@ contract NFT is ERC721, Ownable {
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
-        return IGameOfLifeNFT(GAME_OF_LIFE_CONTRACT).tokenURI(tokenId);
+        // TODO: Implement this function to return the token URI by calling the Stylus contract.
+        // Hint: Use the IGameOfLifeNFT interface and the GAME_OF_LIFE_CONTRACT address to call tokenURI(tokenId).
+        //
+        // Write your code below:
+        
     }
 
 }
