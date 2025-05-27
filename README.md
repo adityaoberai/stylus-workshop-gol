@@ -29,6 +29,7 @@ In this hands-on workshop, you will:
 For advanced/local setup:
 - [pnpm](https://pnpm.io/installation)
 - [nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- [rust](https://rustup.rs/)
 - [foundry](https://book.getfoundry.sh/getting-started/installation)
 - [Docker](https://www.docker.com/products/docker-desktop/)
 - [Nitro-devnode](https://github.com/OffchainLabs/nitro-devnode?tab=readme-ov-file#usage)
