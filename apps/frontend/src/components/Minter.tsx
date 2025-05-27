@@ -67,7 +67,6 @@ const Minter: React.FC<MinterProps> = ({ contractAddress, name, abi }) => {
             functionName: 'tokenURI',
             args: [id]
           });
-          console.log('[Minter] tokenURI for', id.toString(), ':', uri);
           return { id, uri: uri as string };
         } catch (e) {
           console.error('[Minter] Error reading tokenURI for', id.toString(), e);
