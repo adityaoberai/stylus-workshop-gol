@@ -12,12 +12,13 @@ interface TokenData {
 interface MinterProps {
   contractAddress: string;
   name: string;
+  abi?: any;
 }
 
-const Minter: React.FC<MinterProps> = ({ contractAddress, name }) => {
+const Minter: React.FC<MinterProps> = ({ contractAddress, name, abi }) => {
+  const usedAbi = abi || GameOfLifeNFTAbi;
   const { publicClient, walletClient, address: account, isConnected, connect } = useWeb3();
 
-  // Auto-connect if not connected and provider exists
   React.useEffect(() => {
     if (!isConnected && typeof window !== 'undefined' && (window as any).ethereum) {
       connect();
@@ -29,15 +30,21 @@ const Minter: React.FC<MinterProps> = ({ contractAddress, name }) => {
   const [isMinting, setIsMinting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch user's minted NFTs
   const fetchUserMints = useCallback(async () => {
     if (!publicClient || !account) return;
+    if (!contractAddress || contractAddress.length !== 42) {
+      console.error('[Minter] Invalid contract address:', contractAddress);
+      setError('Invalid contract address: ' + contractAddress);
+      setTokenData([]);
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);
       const logs = await publicClient.getLogs({
         address: contractAddress as `0x${string}`,
-        event: GameOfLifeNFTAbi.find(e => e.type === 'event' && e.name === 'Transfer') as any,
+        event: usedAbi.find((e: any) => e.type === 'event' && e.name === 'Transfer') as any,
         fromBlock: 0n,
         toBlock: 'latest',
       });
@@ -52,29 +59,40 @@ const Minter: React.FC<MinterProps> = ({ contractAddress, name }) => {
         return;
       }
       const tokenDataPromises = tokenIds.map(async (id: bigint) => {
-        const uri = await publicClient.readContract({
-          address: contractAddress as `0x${string}`,
-          abi: GameOfLifeNFTAbi,
-          functionName: 'tokenURI',
-          args: [id]
-        });
-        return { id, uri: uri as string };
+        try {
+          const uri = await publicClient.readContract({
+            address: contractAddress as `0x${string}`,
+            abi: usedAbi,
+            functionName: 'tokenURI',
+            args: [id]
+          });
+          return { id, uri: uri as string };
+        } catch (e) {
+          console.error('[Minter] Error reading tokenURI for', id.toString(), e);
+          return { id, uri: 'ERROR' };
+        }
       });
       const tokenDataResults = await Promise.all(tokenDataPromises);
       setTokenData(tokenDataResults);
       
     } catch (error) {
-      console.error('Error fetching NFTs:', error);
+      console.error('[Minter] Error fetching NFTs:', error);
       setError('Failed to fetch NFTs: ' + (error instanceof Error ? error.message : String(error)));
       setTokenData([]);
     } finally {
       setIsLoading(false);
     }
-  }, [account, publicClient, contractAddress]);
+  }, [account, publicClient, contractAddress, abi]);
 
   // Mint NFT
   const handleMint = useCallback(async () => {
+    if (!contractAddress || contractAddress.length !== 42) {
+      setError('Invalid contract address: ' + contractAddress);
+      console.error('[Minter] Invalid contract address:', contractAddress);
+      return;
+    }
     if (!walletClient || !account) {
+      console.error('[Minter] Not connected to wallet');
       return;
     }
     try {
@@ -84,7 +102,7 @@ const Minter: React.FC<MinterProps> = ({ contractAddress, name }) => {
         await Promise.race([
           walletClient.writeContract({
             address: contractAddress as `0x${string}`,
-            abi: GameOfLifeNFTAbi,
+            abi: usedAbi,
             functionName: 'mint',
             account: account as `0x${string}`,
             args: [],
@@ -94,18 +112,20 @@ const Minter: React.FC<MinterProps> = ({ contractAddress, name }) => {
             reject(new Error('writeContract timed out after 30s'));
           }, 30000))
         ]);
+        console.log('[Minter] Mint transaction sent!');
       } catch (err) {
+        console.error('[Minter] Error during mint:', err);
         throw err;
       }
       setTimeout(() => fetchUserMints(), 2000);
     } catch (error) {
+      console.error('[Minter] Mint failed:', error);
       setError('Mint failed');
     } finally {
       setIsMinting(false);
     }
-  }, [walletClient, account, contractAddress, fetchUserMints]);
+  }, [walletClient, account, contractAddress, abi, fetchUserMints]);
 
-  // Fetch mints on connect and after mint
   useEffect(() => {
     if (isConnected && account && publicClient) {
       fetchUserMints();
@@ -115,15 +135,14 @@ const Minter: React.FC<MinterProps> = ({ contractAddress, name }) => {
       setTokenData([]);
       (0n);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected, account, publicClient, fetchUserMints]);
 
   return (
     <div className="minter-container p-6 max-w-2xl mx-auto bg-gray-800 rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold text-white mb-2 text-center">Game of Life NFT Minter</h2>
-{name && (
-  <h3 className="text-lg font-semibold text-blue-300 mb-6 text-center">{name}</h3>
-) }
+      {name && (
+        <h3 className="text-lg font-semibold text-blue-300 mb-6 text-center">{name}</h3>
+      )}
       {!isConnected || !account ? (
         <div className="flex flex-col items-center">
           <p className="text-gray-300 text-center">Please connect your wallet to mint an NFT</p>
@@ -157,7 +176,7 @@ const Minter: React.FC<MinterProps> = ({ contractAddress, name }) => {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {tokenData.map(({ id, uri }) => (
                       <div key={id.toString()} className="bg-gray-700 p-4 rounded-lg">
-                        <div 
+                        <div
                           className="aspect-square bg-white rounded mb-2 flex items-center justify-center overflow-hidden p-2"
                           dangerouslySetInnerHTML={{ __html: uri }}
                         />
