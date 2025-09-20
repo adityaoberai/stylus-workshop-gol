@@ -15,6 +15,12 @@ importers:
         specifier: ^3.0.3
         version: 3.2.5
 
+  apps/contracts-counter:
+    dependencies:
+      ethers:
+        specifier: ^6.14.1
+        version: 6.14.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+
   apps/contracts-solidity:
     dependencies:
       '@openzeppelin/contracts':

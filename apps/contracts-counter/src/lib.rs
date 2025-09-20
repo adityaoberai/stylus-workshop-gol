@@ -3,7 +3,6 @@
 //!
 //! The following contract implements the Counter example from Foundry.
 //!
-//! ```solidity
 //! contract Counter {
 //!     uint256 public number;
 //!     function setNumber(uint256 newNumber) public {
@@ -13,7 +12,6 @@
 //!         number++;
 //!     }
 //! }
-//! ```
 //!
 //! The program is ABI-equivalent with Solidity, which means you can call it from both Solidity and Rust.
 //! To do this, run `cargo stylus export-abi`.
@@ -45,12 +43,12 @@ use stylus_sdk::{alloy_primitives::U256, prelude::*};
 // Define your contract's persistent storage here using the `sol_storage!` macro.
 // For a counter, you'll want a struct with a single `uint256 number` field.
 // Example (uncomment and complete):
-// sol_storage! {
-//     #[entrypoint]
-//     pub struct Counter {
-//         uint256 number;
-//     }
-// }
+sol_storage! {
+    #[entrypoint]
+    pub struct Counter {
+        uint256 number;
+    }
+}
 // ----------------------------------------------------------------------
 
 
@@ -67,43 +65,43 @@ use stylus_sdk::{alloy_primitives::U256, prelude::*};
 //   - An increment function
 //
 // Example (uncomment and complete):
-// #[public]
-// impl Counter {
-//     /// Reads the `number` value from contract storage and returns it to the caller.
-//     /// This is a "getter" function, which lets users see the current count.
-//     pub fn number(&self) -> U256 {
-//         // Return the current value of `number`
-//         self.number.get()
-//     }
-//     /// Stores a new value in `number`, replacing whatever was there before.
-//     /// This is a "setter" function, letting users directly set the count.
-//     pub fn set_number(&mut self, new_number: U256) {
-//         self.number.set(new_number);
-//     }
-//     /// Multiplies the current value of `number` by the input and updates storage.
-//     /// This demonstrates reading and writing to storage in one function.
-//     pub fn mul_number(&mut self, new_number: U256) {
-//         self.number.set(new_number * self.number.get());
-//     }
-//     /// Adds the input value to the current `number` and saves the result.
-//     /// This shows how to update storage using both the existing and new values.
-//     pub fn add_number(&mut self, new_number: U256) {
-//         self.number.set(new_number + self.number.get());
-//     }
-//     /// Increments `number` by 1. This is a classic counter operation.
-//     /// Notice how you can use U256 arithmetic for simple increments.
-//     pub fn increment(&mut self) {
-//         let number = self.number.get();
-//         self.set_number(number + U256::from(1));
-//     }
-//     /// Adds the value sent with the transaction (`msg_value`) to `number`.
-//     /// This is an example of a payable function that can access transaction context.
-//     #[payable]
-//     pub fn add_from_msg_value(&mut self) {
-//         let number = self.number.get();
-//         self.set_number(number + self.vm().msg_value());
-//     }
-// }
+#[public]
+impl Counter {
+    /// Reads the `number` value from contract storage and returns it to the caller.
+    /// This is a "getter" function, which lets users see the current count.
+    pub fn number(&self) -> U256 {
+        // Return the current value of `number`
+        self.number.get()
+    }
+    /// Stores a new value in `number`, replacing whatever was there before.
+    /// This is a "setter" function, letting users directly set the count.
+    pub fn set_number(&mut self, new_number: U256) {
+        self.number.set(new_number);
+    }
+    /// Multiplies the current value of `number` by the input and updates storage.
+    /// This demonstrates reading and writing to storage in one function.
+    pub fn mul_number(&mut self, new_number: U256) {
+        self.number.set(new_number * self.number.get());
+    }
+    /// Adds the input value to the current `number` and saves the result.
+    /// This shows how to update storage using both the existing and new values.
+    pub fn add_number(&mut self, new_number: U256) {
+        self.number.set(new_number + self.number.get());
+    }
+    /// Increments `number` by 1. This is a classic counter operation.
+    /// Notice how you can use U256 arithmetic for simple increments.
+    pub fn increment(&mut self) {
+        let number = self.number.get();
+        self.set_number(number + U256::from(1));
+    }
+    /// Adds the value sent with the transaction (`msg_value`) to `number`.
+    /// This is an example of a payable function that can access transaction context.
+    #[payable]
+    pub fn add_from_msg_value(&mut self) {
+        let number = self.number.get();
+        self.set_number(number + self.vm().msg_value());
+    }
+}
 // ----------------------------------------------------------------------
 
 
